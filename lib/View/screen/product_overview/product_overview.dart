@@ -7,7 +7,7 @@ class ProductOverview extends StatefulWidget {
   final String productImage;
   final int productPrices; // Non-nullable integer
 
-  ProductOverview({
+  const ProductOverview({
     super.key,
     this.productName = '',
     this.productImage = '',

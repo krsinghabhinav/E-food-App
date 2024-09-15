@@ -1,15 +1,9 @@
 import 'package:demoteteee/View/screen/homesWidgets/30%25off.dart';
 import 'package:demoteteee/View/screen/product_overview/product_overview.dart';
 import 'package:demoteteee/View/screen/search/searchView.dart';
-import 'package:demoteteee/providers/fruitesProvider_product.dart';
 import 'package:demoteteee/providers/provider_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'drawerScr.dart';
@@ -25,47 +19,58 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ProductProvider productProvider = ProductProvider();
-  Fruitesprovider fruitesprovider = Fruitesprovider();
+  // Fruitesprovider fruitesprovider = Fruitesprovider();
   @override
   void initState() {
     super.initState();
     productProvider = Provider.of<ProductProvider>(context, listen: false);
-    fruitesprovider = Provider.of<Fruitesprovider>(context, listen: false);
+    // fruitesprovider = Provider.of<Fruitesprovider>(context, listen: false);
     productProvider.fetchHerbsProduction();
-    fruitesprovider.fetchFruitesProduction();
+    productProvider.fetchFruitProduction();
+    // fruitesprovider.fetchFruitesProduction();
   }
 
   Widget _buildHerbProduct(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
-    final fruitesprovider = Provider.of<Fruitesprovider>(context);
+    // final fruitesprovider = Provider.of<Fruitesprovider>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Herb Seasonings",
-                style: TextStyle(
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Herb Seasonings",
+                  style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
-                    fontSize: 18),
-              ),
-              Text(
-                "View All",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 102, 100, 100),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18),
-              ),
-            ],
-          ),
-        ),
+                    fontSize: 18,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => SearchViewScreen(
+                          searchList:
+                              productProvider.getHerbsProductionDataList,
+                        ));
+                    print("View All tapped");
+                  },
+                  child: const Text(
+                    "View All",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 102, 100, 100),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ],
+            )),
         productProvider.isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
@@ -97,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,24 +114,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w600,
                     fontSize: 18),
               ),
-              Text(
-                "View All",
-                style: TextStyle(
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => SearchViewScreen(
+                        searchList: productProvider.fruitsProductList,
+                      ));
+                  print("View All tapped");
+                },
+                child: const Text(
+                  "View All",
+                  style: TextStyle(
                     color: Color.fromARGB(255, 102, 100, 100),
                     fontWeight: FontWeight.w500,
-                    fontSize: 18),
-              ), // Added color to indicate it's clickable
+                    fontSize: 18,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        fruitesprovider.isLoading
-            ? Center(
+        productProvider.isLoading
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: fruitesprovider.getFruitesdatalist.map((product) {
+                  children: productProvider.fruitsProductList.map((product) {
                     return SingleProduct(
                       onTap: () {
                         // Replace with your navigation logic
@@ -146,29 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
     );
   }
-
-  // @override
-  // void initState() {
-  //   ProductProvider productProvider = Provider.of(context, listen: false);
-  //   productProvider.fetchHerbsProduction();
-  //   super.initState();
-  // }
-
-  // Widget widgetListTile({required IconData icon, required String titleName}) {
-  //   return ListTile(
-  //     leading: Icon(
-  //       icon,
-  //       size: 30,
-  //     ),
-  //     title: Text(
-  //       titleName,
-  //       style: TextStyle(
-  //           fontSize: 18,
-  //           fontWeight: FontWeight.w400,
-  //           color: const Color.fromARGB(255, 75, 72, 72)),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(const SearchView());
+              Get.to(SearchViewScreen(
+                searchList: productProvider.getAllSearchProdut,
+              ));
             },
             child: const CircleAvatar(
               child: Icon(Icons.search),

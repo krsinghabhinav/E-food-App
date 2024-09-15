@@ -1,6 +1,5 @@
-import 'package:demoteteee/providers/fruitesProvider_product.dart';
 import 'package:demoteteee/providers/provider_provider.dart';
-import 'package:demoteteee/test.dart';
+import 'package:demoteteee/providers/userProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider()),
-        ChangeNotifierProvider(create: (_) => Fruitesprovider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: GetMaterialApp(
         theme: ThemeData(useMaterial3: disable),

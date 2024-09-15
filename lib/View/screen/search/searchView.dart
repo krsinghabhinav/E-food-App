@@ -1,17 +1,32 @@
+import 'package:demoteteee/models/productsModel.dart';
 import 'package:demoteteee/widget/SingleItem.dart';
 import 'package:flutter/material.dart';
 
-class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+enum SinginCharacter { lowToHeigh, highToLow, alphabetically }
+
+class SearchViewScreen extends StatefulWidget {
+  final List<ProductModel> searchList;
+
+  SearchViewScreen({this.searchList = const []});
 
   @override
-  State<SearchView> createState() => _SearchViewState();
+  State<SearchViewScreen> createState() => _SearchViewScreenState();
 }
 
-class _SearchViewState extends State<SearchView> {
-  bool istap = false;
+class _SearchViewScreenState extends State<SearchViewScreen> {
+  String query = ''; // it is used for search item
+
+//////   this code is used for which item you want to search
+  searchItem(String query) {
+    List<ProductModel> searchFood = widget.searchList.where((element) {
+      return element.productName.toLowerCase().contains(query);
+    }).toList();
+    return searchFood;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<ProductModel> _searchItem = searchItem(query);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -32,9 +47,9 @@ class _SearchViewState extends State<SearchView> {
           SizedBox(width: 20),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
-          const ListTile(
+          ListTile(
             title: Text(
               "Items",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -44,7 +59,12 @@ class _SearchViewState extends State<SearchView> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 52,
             child: TextFormField(
-              onTap: () {},
+              onChanged: (Value) {
+                print("data print----------------------- $Value");
+                setState(() {
+                  query = Value;
+                });
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -58,24 +78,15 @@ class _SearchViewState extends State<SearchView> {
           ),
           const SizedBox(height: 15),
           Expanded(
-            child: ListView(
-              children: [
-                SingleItem(
+            child: Column(
+              children: _searchItem.map((data) {
+                return SingleItem(
                   isBool: true,
-                ),
-                SingleItem(
-                  isBool: true,
-                ),
-                SingleItem(
-                  isBool: true,
-                ),
-                SingleItem(
-                  isBool: true,
-                ),
-                SingleItem(
-                  isBool: true,
-                ),
-              ],
+                  productImage: data.productImage,
+                  productName: data.productName,
+                  productPrices: data.productPrices,
+                );
+              }).toList(),
             ),
           ),
         ],

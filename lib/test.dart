@@ -52,7 +52,7 @@ class _SearchViewState extends State<SearchView> {
           ),
           Expanded(
             child: ListView(
-              children: [
+              children: const [
                 Searchitem(),
                 Searchitem(),
                 Searchitem(),

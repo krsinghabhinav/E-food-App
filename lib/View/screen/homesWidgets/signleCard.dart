@@ -2,6 +2,8 @@ import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widget/countitem.dart';
+
 class SingleProduct extends StatelessWidget {
   final String productImage;
   final String productName;
@@ -64,7 +66,7 @@ class SingleProduct extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "\$ ${productPrices} /50 Gram",
+                                  "\$ $productPrices /50 Gram",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontWeight: FontWeight.bold,
@@ -93,28 +95,7 @@ class SingleProduct extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(width: 4),
-                                    Container(
-                                      padding: const EdgeInsets.only(left: 2),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      height: 30,
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.remove),
-                                          SizedBox(width: 8),
-                                          Text(
-                                            "1",
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          SizedBox(width: 8),
-                                          Icon(Icons.add),
-                                        ],
-                                      ),
-                                    ),
+                                    CountAddRemoveitem(),
                                   ],
                                 ),
                               ],

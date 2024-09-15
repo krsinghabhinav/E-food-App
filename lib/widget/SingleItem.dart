@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 
 class SingleItem extends StatelessWidget {
   bool isBool;
+  final String productImage;
+  final String productName;
+  final int productPrices;
 
-  SingleItem({super.key, this.isBool = false});
+  SingleItem({
+    super.key,
+    this.isBool = false,
+    this.productName = '',
+    this.productImage = '',
+    this.productPrices = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +26,8 @@ class SingleItem extends StatelessWidget {
                 child: SizedBox(
                   height: 100,
                   child: Center(
-                    child: Image.asset(
-                        "assest/images/f3.png"), // Ensure the path is correct
+                    child:
+                        Image.asset(productImage), // Ensure the path is correct
                   ),
                 ),
               ),
@@ -31,20 +40,20 @@ class SingleItem extends StatelessWidget {
                         : MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "ProductName",
+                              productName,
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              "\$50",
+                              "\$ $productPrices",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -70,12 +79,16 @@ class SingleItem extends StatelessWidget {
                                   children: [
                                     SizedBox(width: 10),
                                     Expanded(
-                                      child: Text(
-                                        "50 Gram",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color.fromARGB(55, 0, 0, 0),
+                                      child: FittedBox(
+                                        // FittedBox will scale the text down to fit
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          "50 Gram",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color.fromARGB(55, 0, 0, 0),
+                                          ),
                                         ),
                                       ),
                                     ),

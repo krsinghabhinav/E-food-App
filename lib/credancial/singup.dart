@@ -1,9 +1,11 @@
 import 'package:demoteteee/message/toastmesss.dart';
+import 'package:demoteteee/providers/userProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 Future<User?> googleSignUp() async {
+  UserProvider userProvider = UserProvider();
   try {
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: ['email'],
@@ -31,12 +33,22 @@ Future<User?> googleSignUp() async {
         await googleUser!.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
 
     final User? user = (await auth.signInWithCredential(credential)).user;
     print("Sign in -${user!.displayName}");
+    userProvider.addUserdata(
+      userName: user.displayName.toString(),
+      userEmail: user.email.toString(),
+      userImage: user.photoURL.toString(),
+      currentUser: user,
+    );
+    print('userName--------${user.displayName.toString()}');
+    print('userEmail--------${user.email.toString()}');
+    print('userImage--------${user.photoURL.toString()}');
+    print('currentUser--------${user.uid}');
     // if (user != null) {
     //   print("Signed in: " + user.displayName.toString());
     ToastUtil.showSuccess("Signed in: ${user.displayName}");

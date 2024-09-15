@@ -1,10 +1,9 @@
 import 'package:demoteteee/View/screen/homesWidgets/homeView.dart';
 import 'package:demoteteee/credancial/singup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:demoteteee/providers/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -14,11 +13,13 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
+  late UserProvider userProvider;
   // UserProvider userProvider;
   // SingupAuth singupAuth = SingupAuth();
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SizedBox(
         height: double.infinity,
