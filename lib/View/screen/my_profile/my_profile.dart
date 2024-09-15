@@ -12,13 +12,13 @@ class _MyProfileViewState extends State<MyProfileView> {
   Widget listTile({IconData? icon, String? titlename}) {
     return Column(
       children: [
-        Divider(
+        const Divider(
           height: 1,
         ),
         ListTile(
           leading: Icon(icon),
           title: Text(titlename!),
-          trailing: Icon(Icons.arrow_forward_ios),
+          trailing: const Icon(Icons.arrow_forward_ios),
         )
       ],
     );
@@ -27,37 +27,38 @@ class _MyProfileViewState extends State<MyProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 230, 208, 10),
+      backgroundColor: const Color.fromARGB(255, 230, 208, 10),
 
       // backgroundColor: const Color.fromARGB(255, 230, 208, 10),
       appBar: AppBar(
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 230, 208, 10),
-        title: Text(
+        title: const Text(
           "My Profile",
           style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 0, 0, 0),
               fontSize: 25),
         ),
       ),
-      drawer: DrawerSide(),
+      drawer: const DrawerSide(),
       body: Stack(
         children: [
           Column(
             children: [
               Container(
                 height: 90,
-                color: Color.fromARGB(255, 230, 208, 10),
+                color: const Color.fromARGB(255, 230, 208, 10),
               ),
               Container(
                 height: 617,
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
@@ -72,8 +73,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                         Container(
                           height: 100,
                           width: 250,
-                          padding: EdgeInsets.only(left: 30, top: 0),
-                          child: Row(
+                          padding: const EdgeInsets.only(left: 30, top: 0),
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
@@ -84,16 +85,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                                     "Abhinav kuamr Singh",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        color:
-                                            const Color.fromARGB(255, 0, 0, 0),
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                         fontSize: 16),
                                   ),
                                   Text(
                                     "abhinavsingh@gmail.com",
                                     style: TextStyle(
                                         // fontWeight: FontWeight.w500,
-                                        color:
-                                            const Color.fromARGB(255, 0, 0, 0),
+                                        color: Color.fromARGB(255, 0, 0, 0),
                                         fontSize: 14),
                                   )
                                 ],
@@ -139,8 +138,8 @@ class _MyProfileViewState extends State<MyProfileView> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 40, left: 30),
+          const Padding(
+            padding: EdgeInsets.only(top: 40, left: 30),
             child: CircleAvatar(
               radius: 55,
               backgroundImage: AssetImage('assest/images/per.png'),

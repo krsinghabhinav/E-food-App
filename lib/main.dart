@@ -1,3 +1,4 @@
+import 'package:demoteteee/providers/fruitesProvider_product.dart';
 import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:demoteteee/test.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,12 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProductProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => Fruitesprovider()),
+      ],
       child: GetMaterialApp(
         theme: ThemeData(useMaterial3: disable),
         title: 'Flutter Demo',
-        home: SignInView(),
+        home: const SignInView(),
       ),
     );
   }

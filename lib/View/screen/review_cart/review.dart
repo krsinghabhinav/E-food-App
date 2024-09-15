@@ -14,19 +14,19 @@ class _ReviewCartViewState extends State<ReviewCartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: ListTile(
-        title: Text(
+        title: const Text(
           "Total Amount",
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: Color.fromARGB(255, 0, 0, 0),
             fontSize: 18,
           ),
         ),
-        subtitle: Text(
+        subtitle: const Text(
           "\$1500.00 ",
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            color: const Color.fromARGB(255, 29, 221, 39),
+            color: Color.fromARGB(255, 29, 221, 39),
             fontSize: 16,
           ),
         ),
@@ -34,14 +34,14 @@ class _ReviewCartViewState extends State<ReviewCartView> {
           height: 50,
           width: 140,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 230, 6),
+              color: const Color.fromARGB(255, 255, 230, 6),
               borderRadius: BorderRadius.circular(30)),
-          child: Center(
+          child: const Center(
             child: Text(
               "Submit",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 83, 81, 81),
+                color: Color.fromARGB(255, 83, 81, 81),
                 fontSize: 20,
               ),
             ),
@@ -51,21 +51,21 @@ class _ReviewCartViewState extends State<ReviewCartView> {
       appBar: AppBar(
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 230, 208, 10),
-        title: Text(
+        title: const Text(
           "Review Cart",
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: Color.fromARGB(255, 0, 0, 0),
             fontSize: 25,
           ),
         ),
       ),
       body: ListView(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SingleItem(
@@ -80,7 +80,7 @@ class _ReviewCartViewState extends State<ReviewCartView> {
           SingleItem(
             isBool: false,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           )
         ],

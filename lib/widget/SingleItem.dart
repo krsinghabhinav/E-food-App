@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SingleItem extends StatelessWidget {
-  final bool isBool;
+  bool isBool;
 
-  SingleItem({Key? key, this.isBool = false});
+  SingleItem({super.key, this.isBool = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SingleItem extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 100,
                   child: Center(
                     child: Image.asset(
@@ -23,7 +23,7 @@ class SingleItem extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 100,
                   child: Column(
                     mainAxisAlignment: isBool
@@ -31,8 +31,8 @@ class SingleItem extends StatelessWidget {
                         : MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -57,15 +57,15 @@ class SingleItem extends StatelessWidget {
                           ? Container(
                               height: 35,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(55, 221, 219, 219),
+                                color: const Color.fromARGB(55, 221, 219, 219),
                                 borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 187, 185, 185),
+                                  color:
+                                      const Color.fromARGB(255, 187, 185, 185),
                                 ),
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
                                 child: Row(
                                   children: [
                                     SizedBox(width: 10),
@@ -84,7 +84,7 @@ class SingleItem extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : Text("50 Gram"),
+                          : const Text("50 Gram"),
                     ],
                   ),
                 ),
@@ -93,8 +93,8 @@ class SingleItem extends StatelessWidget {
                 child: Container(
                   height: 100,
                   padding: isBool
-                      ? EdgeInsets.symmetric(horizontal: 10, vertical: 30)
-                      : EdgeInsets.only(left: 0, top: 20),
+                      ? const EdgeInsets.symmetric(horizontal: 10, vertical: 30)
+                      : const EdgeInsets.only(left: 0, top: 20),
                   child: isBool
                       ? Column(
                           children: [
@@ -104,13 +104,15 @@ class SingleItem extends StatelessWidget {
                                 height: 30,
                                 width: 80,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(55, 221, 219, 219),
+                                  color:
+                                      const Color.fromARGB(55, 221, 219, 219),
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
-                                    color: Color.fromARGB(255, 187, 185, 185),
+                                    color: const Color.fromARGB(
+                                        255, 187, 185, 185),
                                   ),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -136,7 +138,7 @@ class SingleItem extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 20),
                           child: Column(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.delete,
                                 size: 40,
                               ),
@@ -144,13 +146,15 @@ class SingleItem extends StatelessWidget {
                                 height: 30,
                                 width: 80,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(55, 221, 219, 219),
+                                  color:
+                                      const Color.fromARGB(55, 221, 219, 219),
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
-                                    color: Color.fromARGB(255, 187, 185, 185),
+                                    color: const Color.fromARGB(
+                                        255, 187, 185, 185),
                                   ),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -179,7 +183,7 @@ class SingleItem extends StatelessWidget {
         ),
         isBool
             ? Container()
-            : Divider(
+            : const Divider(
                 height: 1,
                 color: Colors.black,
               ),

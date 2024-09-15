@@ -1,6 +1,7 @@
 import 'package:demoteteee/View/screen/homesWidgets/30%25off.dart';
 import 'package:demoteteee/View/screen/product_overview/product_overview.dart';
 import 'package:demoteteee/View/screen/search/searchView.dart';
+import 'package:demoteteee/providers/fruitesProvider_product.dart';
 import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,12 +24,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Widget _buildHerbProduct(context) {
+  ProductProvider productProvider = ProductProvider();
+  Fruitesprovider fruitesprovider = Fruitesprovider();
+  @override
+  void initState() {
+    super.initState();
+    productProvider = Provider.of<ProductProvider>(context, listen: false);
+    fruitesprovider = Provider.of<Fruitesprovider>(context, listen: false);
+    productProvider.fetchHerbsProduction();
+    fruitesprovider.fetchFruitesProduction();
+  }
+
+  Widget _buildHerbProduct(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+    final fruitesprovider = Provider.of<Fruitesprovider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,65 +57,38 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 "View All",
                 style: TextStyle(
-                    color: const Color.fromARGB(255, 102, 100, 100),
+                    color: Color.fromARGB(255, 102, 100, 100),
                     fontWeight: FontWeight.w500,
                     fontSize: 18),
-              ), // Added color to indicate it's clickable
-            ],
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SingleProduct(
-                onTap: () {
-                  Get.to(ProductOverview(
-                    productImage: "assest/images/lifs1.png",
-                    productName: "Fresh Basil",
-                  ));
-                },
-                productImage: "assest/images/lifs1.png",
-                productName: "Fresh Basil",
-              ),
-              SingleProduct(
-                onTap: () {
-                  Get.to(ProductOverview(
-                    productImage: "assest/images/lifs2.png",
-                    productName: "Fresh Mint",
-                  ));
-                },
-                productImage: "assest/images/lifs2.png",
-                productName: "Fresh Mint",
-              ),
-              SingleProduct(
-                onTap: () {
-                  Get.to(ProductOverview(
-                    productImage: "assest/images/lifs3.png",
-                    productName: "Fresh Tulsi",
-                  ));
-                },
-                productImage: "assest/images/lifs3.png",
-                productName: "Fresh Basil",
-              ),
-              SingleProduct(
-                onTap: () {
-                  Get.to(ProductOverview(
-                    productImage: "assest/images/mery.png",
-                    productName: "Fresh Tulsi",
-                  ));
-                },
-                productImage: "assest/images/mery.png",
-                productName: "Fresh Basil",
-              ),
-              SingleProduct(
-                onTap: () {},
-                productImage: "assest/images/lifs1.png",
-                productName: "Fresh Basil",
               ),
             ],
           ),
         ),
+        productProvider.isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      productProvider.getHerbsProductionDataList.map((product) {
+                    return SingleProduct(
+                      onTap: () {
+                        // Replace with your navigation logic
+                        Get.to(ProductOverview(
+                          productImage: product.productImage,
+                          productName: product.productName,
+                          productPrices: product.productPrices,
+                        ));
+                      },
+                      productImage: product.productImage,
+                      productName: product.productName,
+                      productPrices: product.productPrices,
+                    );
+                  }).toList(),
+                ),
+              ),
       ],
     );
   }
@@ -109,8 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -124,47 +112,37 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 "View All",
                 style: TextStyle(
-                    color: const Color.fromARGB(255, 102, 100, 100),
+                    color: Color.fromARGB(255, 102, 100, 100),
                     fontWeight: FontWeight.w500,
                     fontSize: 18),
               ), // Added color to indicate it's clickable
             ],
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SingleProduct(
-                onTap: () {
-                  Get.to(ProductOverview(
-                    productImage: "assest/images/fruite.png",
-                    productName: "Collection of Fruits",
-                  ));
-                },
-                productImage: "assest/images/fruite.png",
-                productName: "Collection of Fruits",
+        fruitesprovider.isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: fruitesprovider.getFruitesdatalist.map((product) {
+                    return SingleProduct(
+                      onTap: () {
+                        // Replace with your navigation logic
+                        Get.to(ProductOverview(
+                          productImage: product.productImage,
+                          productName: product.productName,
+                          productPrices: product.productPrices,
+                        ));
+                      },
+                      productImage: product.productImage,
+                      productName: product.productName,
+                      productPrices: product.productPrices,
+                    );
+                  }).toList(),
+                ),
               ),
-              SingleProduct(
-                onTap: () {
-                  print("kkkkkkkkkkkkkkkk");
-                },
-                productImage: "assest/images/f3.png",
-                productName: "Fresh Basil",
-              ),
-              SingleProduct(
-                onTap: () {},
-                productImage: "assest/images/f2.png",
-                productName: "Fresh Basil",
-              ),
-              SingleProduct(
-                onTap: () {},
-                productImage: "assest/images/f1.png",
-                productName: "Fresh Basil",
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
@@ -194,173 +172,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProductProvider productProvider = Provider.of(context, listen: false);
-    productProvider.fetchHerbsProduction();
+    productProvider = Provider.of(context);
+    // productProvider.fetchHerbsProduction();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 214, 213, 213),
-      drawer: DrawerSide(),
-      // drawer: Drawer(
-      //   backgroundColor: const Color.fromARGB(255, 221, 201, 18),
-      //   child: Container(
-      //     child: ListView(
-      //       children: [
-      //         DrawerHeader(
-      //           child: Row(
-      //             children: [
-      //               CircleAvatar(
-      //                 backgroundColor: Colors.white,
-      //                 radius: 50,
-      //                 child: CircleAvatar(
-      //                   radius: 48,
-      //                   backgroundColor:
-      //                       const Color.fromARGB(255, 238, 215, 12),
-      //                   backgroundImage: AssetImage('assest/images/per.png'),
-      //                 ),
-      //               ),
-      //               SizedBox(
-      //                 width: 15,
-      //               ),
-      //               // SizedBox(
-      //               //   height: 7,
-      //               // ),
-      //               Column(
-      //                 mainAxisAlignment: MainAxisAlignment.center,
-      //                 children: [
-      //                   SizedBox(
-      //                     height: 7,
-      //                   ),
-      //                   Text(
-      //                     'Welcome Guest',
-      //                     style: TextStyle(
-      //                         color: const Color.fromARGB(255, 0, 0, 0),
-      //                         fontWeight: FontWeight.w500,
-      //                         fontSize: 20),
-      //                   ),
-      //                   SizedBox(
-      //                     height: 7,
-      //                   ),
-      //                   Container(
-      //                     height: 35,
-      //                     // width: 100,
-      //                     child: OutlinedButton(
-      //                         onPressed: () {},
-      //                         child: Text(
-      //                           "Login",
-      //                           style: TextStyle(
-      //                               // color: const Color.fromARGB(255, 0, 0, 0),
-      //                               fontWeight: FontWeight.w500,
-      //                               fontSize: 18),
-      //                         )),
-      //                   ),
-      //                 ],
-      //               )
-      //             ],
-      //           ),
-      //         ),
-      //         SizedBox(
-      //           width: 30,
-      //         ),
-      //         widgetListTile(icon: Icons.home_outlined, titleName: "Home"),
-      //         widgetListTile(
-      //             icon: Icons.shop_outlined, titleName: "Review Cart"),
-      //         widgetListTile(
-      //             icon: Icons.person_outline, titleName: "My Profile"),
-      //         widgetListTile(
-      //             icon: Icons.notifications_outlined,
-      //             titleName: "Notification"),
-      //         widgetListTile(
-      //             icon: Icons.star_outline, titleName: "Rating & Review"),
-      //         widgetListTile(
-      //             icon: Icons.favorite_outline, titleName: "Wishlist"),
-      //         widgetListTile(
-      //             icon: Icons.copy_outlined, titleName: "Raise a Complant"),
-      //         widgetListTile(
-      //             icon: Icons.format_quote_outlined, titleName: "FAQs"),
-      //         Padding(
-      //           padding: const EdgeInsets.symmetric(horizontal: 20),
-      //           child: Column(
-      //             // mainAxisAlignment: MainAxisAlignment.start,
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: [
-      //               Text(
-      //                 'Contact Support',
-      //                 style: TextStyle(
-      //                     fontSize: 18,
-      //                     fontWeight: FontWeight.w400,
-      //                     color: const Color.fromARGB(255, 75, 72, 72)),
-      //               ),
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.start,
-      //                 children: [
-      //                   Text(
-      //                     'Call us:',
-      //                     style: TextStyle(
-      //                         fontSize: 16,
-      //                         fontWeight: FontWeight.w400,
-      //                         color: const Color.fromARGB(255, 75, 72, 72)),
-      //                   ),
-      //                   Text(
-      //                     '+917525827482',
-      //                     style: TextStyle(
-      //                         fontSize: 16,
-      //                         fontWeight: FontWeight.w400,
-      //                         color: const Color.fromARGB(255, 75, 72, 72)),
-      //                   ),
-      //                 ],
-      //               ),
-      //               Row(
-      //                 mainAxisAlignment: MainAxisAlignment.start,
-      //                 children: [
-      //                   Text(
-      //                     'Mail us:',
-      //                     style: TextStyle(
-      //                         fontSize: 16,
-      //                         fontWeight: FontWeight.w400,
-      //                         color: const Color.fromARGB(255, 75, 72, 72)),
-      //                   ),
-      //                   Text(
-      //                     'abhinavsingh@gmail.com',
-      //                     style: TextStyle(
-      //                         fontSize: 16,
-      //                         fontWeight: FontWeight.w400,
-      //                         color: const Color.fromARGB(255, 75, 72, 72)),
-      //                   ),
-      //                 ],
-      //               ),
-      //             ],
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
+      drawer: const DrawerSide(),
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
-        title: Text(
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        title: const Text(
           "Home",
           style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 0, 0, 0),
               fontSize: 30),
         ),
         backgroundColor: const Color.fromARGB(255, 230, 208, 10),
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(SearchView());
+              Get.to(const SearchView());
             },
-            child: CircleAvatar(
+            child: const CircleAvatar(
               child: Icon(Icons.search),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
-          CircleAvatar(
+          const CircleAvatar(
             child: Icon(Icons.shop),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           )
         ],
@@ -372,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               height: 150,
               decoration: BoxDecoration(
-                image: DecorationImage(
+                image: const DecorationImage(
                     image: AssetImage(
                       "assest/images/ve.png",
                     ),
@@ -396,16 +239,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             height: 45,
                             width: 100,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 255, 217, 1),
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 255, 217, 1),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(50),
                                 topLeft: Radius.circular(40),
                                 bottomRight: Radius.circular(60),
                               ),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 4),
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 20, top: 4),
                               child: Text(
                                 "Vegi",
                                 style: TextStyle(
@@ -435,95 +278,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        off30Widgtes(),
-                        onalllvege(),
+                        const off30Widgtes(),
+                        const onalllvege(),
                       ],
                     ),
                   )
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 10),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text(
-            //         "Herb Seasonings",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontWeight: FontWeight.w600,
-            //             fontSize: 18),
-            //       ),
-            //       Text(
-            //         "View All",
-            //         style: TextStyle(
-            //             color: const Color.fromARGB(255, 102, 100, 100),
-            //             fontWeight: FontWeight.w500,
-            //             fontSize: 18),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.only(
-            //     top: 5,
-            //   ),
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.horizontal,
-            //     child: Row(
-            //       children: [
-            //         // SingleProduct(),
-            //         // SingleProduct(),
-            //         // SingleProduct(),
-            //         // SingleProduct(),
-            //         _buildFreshProduct()
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            _buildHerbProduct(context),
             _buildFreshProduct(),
-
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 10),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text(
-            //         "Fresh Fruits",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontWeight: FontWeight.w600,
-            //             fontSize: 18),
-            //       ),
-            //       Text(
-            //         "View All",
-            //         style: TextStyle(
-            //             color: const Color.fromARGB(255, 102, 100, 100),
-            //             fontWeight: FontWeight.w500,
-            //             fontSize: 18),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.only(
-            //     top: 5,
-            //   ),
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.horizontal,
-            //     child: Row(
-            //       children: [
-            //         FreshFruitesWidget(),
-            //         FreshFruitesWidget(),
-            //         FreshFruitesWidget(),
-            //         FreshFruitesWidget(),
-            //         FreshFruitesWidget(),
-            //       ],
-            //     ),
-            //   ),
-            // )
+            _buildHerbProduct(context),
           ],
         ),
       ),

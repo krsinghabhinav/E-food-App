@@ -11,8 +11,8 @@ class off30Widgtes extends StatefulWidget {
 class _off30WidgtesState extends State<off30Widgtes> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 50, top: 4),
+    return const Padding(
+      padding: EdgeInsets.only(right: 50, top: 4),
       child: Text(
         "30%Off",
         style: TextStyle(

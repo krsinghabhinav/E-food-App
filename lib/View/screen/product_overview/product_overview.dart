@@ -5,8 +5,14 @@ enum SigninCharactor { fill, outline }
 class ProductOverview extends StatefulWidget {
   final String productName;
   final String productImage;
-  const ProductOverview(
-      {super.key, this.productName = '', this.productImage = ''});
+  final int productPrices; // Non-nullable integer
+
+  ProductOverview({
+    super.key,
+    this.productName = '',
+    this.productImage = '',
+    this.productPrices = 0, // Default value of 0
+  });
 
   @override
   State<ProductOverview> createState() => _ProductOverviewState();
@@ -69,8 +75,8 @@ class _ProductOverviewState extends State<ProductOverview> {
       appBar: AppBar(
         centerTitle: true,
         scrolledUnderElevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
-        title: Text(
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        title: const Text(
           "Product View",
           style: TextStyle(
             fontWeight: FontWeight.w700,
@@ -84,30 +90,30 @@ class _ProductOverviewState extends State<ProductOverview> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               // padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   ListTile(
                     title: Text(
                       widget.productName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     subtitle: Text(
-                      "\$50",
-                      style: TextStyle(fontSize: 19),
+                      "\$${widget.productPrices}",
+                      style: const TextStyle(fontSize: 19),
                     ),
                   ),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: 250,
                       child: Image.asset(
                         widget.productImage,
@@ -115,15 +121,15 @@ class _ProductOverviewState extends State<ProductOverview> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 13),
                     child: Text(
                       "Available Options",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: Row(
@@ -131,7 +137,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                       children: [
                         Row(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 5,
                               backgroundColor: Colors.green,
                             ),
@@ -147,7 +153,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                             ),
                           ],
                         ),
-                        Text(
+                        const Text(
                           "\$50",
                           style: TextStyle(fontSize: 20),
                         ),
@@ -160,7 +166,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(color: Colors.grey),
                           ),
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.add),
                               SizedBox(width: 4),
@@ -177,8 +183,8 @@ class _ProductOverviewState extends State<ProductOverview> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

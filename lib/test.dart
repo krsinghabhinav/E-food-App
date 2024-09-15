@@ -14,17 +14,17 @@ class _SearchViewState extends State<SearchView> {
       appBar: AppBar(
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 230, 208, 10),
-        title: Text(
+        title: const Text(
           "Search",
           style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: Color.fromARGB(255, 0, 0, 0),
               fontSize: 25),
         ),
-        actions: [
+        actions: const [
           Icon(Icons.menu_rounded),
           SizedBox(
             width: 20,
@@ -34,7 +34,7 @@ class _SearchViewState extends State<SearchView> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 52,
             child: TextFormField(
               decoration: InputDecoration(
@@ -44,10 +44,10 @@ class _SearchViewState extends State<SearchView> {
                   fillColor: const Color.fromARGB(255, 221, 219, 219),
                   filled: true,
                   hintText: " Search for item in the store",
-                  suffixIcon: Icon(Icons.search_outlined)),
+                  suffixIcon: const Icon(Icons.search_outlined)),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Expanded(
@@ -73,9 +73,11 @@ class _SearchViewState extends State<SearchView> {
 }
 
 class Searchitem extends StatelessWidget {
+  const Searchitem({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return const ListTile(
       title: Text("Item"),
     );
   }

@@ -27,7 +27,7 @@ Future<User?> googleSignUp() async {
     //   return null;
     // }
 
-    final GoogleSignInAuthentication? googleAuth =
+    final GoogleSignInAuthentication googleAuth =
         await googleUser!.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
@@ -36,10 +36,10 @@ Future<User?> googleSignUp() async {
     );
 
     final User? user = (await auth.signInWithCredential(credential)).user;
-    print("Sign in -" + user!.displayName.toString());
+    print("Sign in -${user!.displayName}");
     // if (user != null) {
     //   print("Signed in: " + user.displayName.toString());
-    ToastUtil.showSuccess("Signed in: " + user.displayName.toString());
+    ToastUtil.showSuccess("Signed in: ${user.displayName}");
     // }
     return user;
   } catch (e) {
