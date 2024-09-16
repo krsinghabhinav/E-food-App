@@ -1,8 +1,21 @@
+import 'package:demoteteee/providers/review_cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CountAddRemoveitem extends StatefulWidget {
-  const CountAddRemoveitem({
+  final String productImage;
+  final String productName;
+  final String productId;
+  int productprice;
+  // int productQuantity;
+
+  CountAddRemoveitem({
     super.key,
+    this.productImage = '',
+    this.productName = '',
+    this.productId = '',
+    this.productprice = 0,
+    // this.productQuantity = 0,
   });
 
   @override
@@ -10,10 +23,13 @@ class CountAddRemoveitem extends StatefulWidget {
 }
 
 class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
+  late ReviewCartProvider reviewCartProvider;
   int count = 1;
   bool isTrue = false;
   @override
   Widget build(BuildContext context) {
+    reviewCartProvider = Provider.of<ReviewCartProvider>(context);
+    print('product id  ----------------------    ${widget.productId}');
     return Container(
         padding: const EdgeInsets.only(left: 2),
         decoration: BoxDecoration(
@@ -61,6 +77,13 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
                     onTap: () {
                       setState(() {
                         isTrue = true;
+                        reviewCartProvider.addReviewCartData(
+                          cartId: widget.productId,
+                          cartImage: widget.productImage,
+                          cartName: widget.productName,
+                          cartPrice: widget.productprice,
+                          cartQuantity: count,
+                        );
                       });
                     },
                     child: Padding(

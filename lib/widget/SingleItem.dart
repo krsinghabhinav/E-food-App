@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class SingleItem extends StatelessWidget {
   bool isBool;
-  final String productImage;
-  final String productName;
-  final int productPrices;
+  String productImage;
+  String productName;
+  int productPrices;
+  String productId;
+  int productQuantity;
 
   SingleItem({
     super.key,
@@ -12,6 +14,8 @@ class SingleItem extends StatelessWidget {
     this.productName = '',
     this.productImage = '',
     this.productPrices = 0,
+    this.productId = '',
+    this.productQuantity = 0,
   });
 
   @override

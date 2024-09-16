@@ -1,7 +1,6 @@
 import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../widget/countitem.dart';
 
 class SingleProduct extends StatelessWidget {
@@ -9,11 +8,13 @@ class SingleProduct extends StatelessWidget {
   final String productName;
   final int productPrices;
   final VoidCallback? onTap;
+  final String productId;
 
   const SingleProduct({
     super.key,
     this.productImage = '',
     this.productName = '',
+    this.productId = '',
     this.productPrices = 0,
     this.onTap,
   });
@@ -62,7 +63,7 @@ class SingleProduct extends StatelessWidget {
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                    fontSize: 12,
                                   ),
                                 ),
                                 Text(
@@ -95,7 +96,13 @@ class SingleProduct extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(width: 4),
-                                    CountAddRemoveitem(),
+                                    CountAddRemoveitem(
+                                      productName: productName,
+                                      productId: productId,
+                                      productImage: productImage,
+                                      productprice: productPrices,
+                                      // productQuantity: "1",
+                                    ),
                                   ],
                                 ),
                               ],

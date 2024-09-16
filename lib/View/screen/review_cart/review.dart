@@ -1,5 +1,8 @@
+import 'package:demoteteee/models/reviewCart.dart';
+import 'package:demoteteee/providers/review_cart_provider.dart';
 import 'package:demoteteee/widget/SingleItem.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ReviewCartView extends StatefulWidget {
   const ReviewCartView({super.key});
@@ -10,7 +13,20 @@ class ReviewCartView extends StatefulWidget {
 
 class _ReviewCartViewState extends State<ReviewCartView> {
   @override
+  void initState() {
+    super.initState();
+    // Fetch the review cart data once when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ReviewCartProvider>(context, listen: false)
+          .getReviewCartDataList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    ReviewCartProvider reviewCartProvider =
+        Provider.of<ReviewCartProvider>(context);
+
     return Scaffold(
       bottomNavigationBar: ListTile(
         title: const Text(
@@ -62,28 +78,29 @@ class _ReviewCartViewState extends State<ReviewCartView> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          SingleItem(
-            isBool: false,
-          ),
-          SingleItem(
-            isBool: false,
-          ),
-          SingleItem(
-            isBool: false,
-          ),
-          SingleItem(
-            isBool: false,
-          ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
-      ),
+      body: reviewCartProvider.geCartDataList.isEmpty
+          ? const Center(child: Text('No items in the cart'))
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: reviewCartProvider.geCartDataList.length,
+              itemBuilder: (BuildContext context, int index) {
+                ReviewCartModel cartItem =
+                    reviewCartProvider.geCartDataList[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    SingleItem(
+                      isBool: false,
+                      productName: cartItem.cartName,
+                      productImage: cartItem.cartImage, // Correct name
+                      productPrices: cartItem.cartPrice,
+                      productId: cartItem.cartId,
+                      productQuantity: cartItem.cartQuantity,
+                    ),
+                  ],
+                );
+              },
+            ),
     );
   }
 }

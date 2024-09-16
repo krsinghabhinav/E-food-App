@@ -90,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       productImage: product.productImage,
                       productName: product.productName,
                       productPrices: product.productPrices,
+                      productId: product.productId,
                     );
                   }).toList(),
                 ),
@@ -153,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       productImage: product.productImage,
                       productName: product.productName,
                       productPrices: product.productPrices,
+                      productId: product.productId,
                     );
                   }).toList(),
                 ),
