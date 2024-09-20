@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demoteteee/providers/review_cart_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +28,44 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
   late ReviewCartProvider reviewCartProvider;
   int count = 1;
   bool isTrue = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getAddandQuality(); // Call this only once when the widget is initialized
+  }
+
+  getAddandQuality() async {
+    DocumentSnapshot productDoc = await FirebaseFirestore.instance
+        .collection("ReviewCart")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("YourReviewCart")
+        .doc(widget.productId) // Fetch the specific product document
+        .get();
+
+    if (this.mounted) {
+      if (productDoc.exists) {
+        print('getAddandQuality=====================${productDoc.data()}');
+        setState(() {
+          count = productDoc.get("cartQuantity");
+          isTrue = productDoc.get("isAdd");
+        });
+      } else {
+        setState(() {
+          isTrue = false;
+          // Set to false if the product is not found in the cart
+          print("product not jjjjjjjjjjjjjj");
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     reviewCartProvider = Provider.of<ReviewCartProvider>(context);
+
     print('product id  ----------------------    ${widget.productId}');
+
     return Container(
         padding: const EdgeInsets.only(left: 2),
         decoration: BoxDecoration(
@@ -46,10 +82,20 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
                         if (count == 1) {
                           setState(() {
                             isTrue = false;
+                            reviewCartProvider
+                                .reviewCartDeleteData(widget.productId);
                           });
                         } else {
                           setState(() {
                             count--;
+
+                            reviewCartProvider.updateReviewCartData(
+                              cartId: widget.productId,
+                              cartImage: widget.productImage,
+                              cartName: widget.productName,
+                              cartPrice: widget.productprice,
+                              cartQuantity: count,
+                            );
                           });
                         }
                       },
@@ -64,6 +110,13 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
                       onTap: () {
                         setState(() {
                           count++;
+                          reviewCartProvider.updateReviewCartData(
+                            cartId: widget.productId,
+                            cartImage: widget.productImage,
+                            cartName: widget.productName,
+                            cartPrice: widget.productprice,
+                            cartQuantity: count,
+                          );
                         });
                       },
                       child: Icon(Icons.add)),

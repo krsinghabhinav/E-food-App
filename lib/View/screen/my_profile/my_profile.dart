@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:demoteteee/View/screen/homesWidgets/drawerScr.dart';
+import '../homesWidgets/drawerScr.dart';
 
 class MyProfileView extends StatefulWidget {
   const MyProfileView({super.key});

@@ -2,6 +2,7 @@ import 'package:demoteteee/models/reviewCart.dart';
 import 'package:demoteteee/providers/review_cart_provider.dart';
 import 'package:demoteteee/widget/SingleItem.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ReviewCartView extends StatefulWidget {
@@ -12,20 +13,68 @@ class ReviewCartView extends StatefulWidget {
 }
 
 class _ReviewCartViewState extends State<ReviewCartView> {
+  late ReviewCartProvider reviewCartProvider;
+
   @override
   void initState() {
     super.initState();
     // Fetch the review cart data once when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ReviewCartProvider>(context, listen: false)
-          .getReviewCartDataList();
+      reviewCartProvider =
+          Provider.of<ReviewCartProvider>(context, listen: false);
+      reviewCartProvider.getReviewCartDataList();
     });
+  }
+
+  Future<void> _refreshProduct() async {
+    await reviewCartProvider.getReviewCartDataList();
+  }
+
+  // Moved the showAlertDialog function outside initState
+  void showAlertDialog(BuildContext context, ReviewCartModel delete) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("No"),
+      onPressed: () {
+        Get.back();
+      },
+    );
+
+    Widget YesButton = TextButton(
+      child: const Text("Yes"),
+      onPressed: () {
+        // Call the delete function and refresh the UI
+        reviewCartProvider.reviewCartDeleteData(delete.cartId);
+        setState(() {
+          // Triggers UI refresh after deletion
+          reviewCartProvider.getReviewCartDataList();
+        });
+        Get.back();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Cart Product"),
+      content: const Text("Are you sure you want to delete this cart product?"),
+      actions: [
+        cancelButton,
+        YesButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    ReviewCartProvider reviewCartProvider =
-        Provider.of<ReviewCartProvider>(context);
+    reviewCartProvider = Provider.of<ReviewCartProvider>(context);
 
     return Scaffold(
       bottomNavigationBar: ListTile(
@@ -78,29 +127,35 @@ class _ReviewCartViewState extends State<ReviewCartView> {
           ),
         ),
       ),
-      body: reviewCartProvider.geCartDataList.isEmpty
-          ? const Center(child: Text('No items in the cart'))
-          : ListView.builder(
-              shrinkWrap: true,
-              itemCount: reviewCartProvider.geCartDataList.length,
-              itemBuilder: (BuildContext context, int index) {
-                ReviewCartModel cartItem =
-                    reviewCartProvider.geCartDataList[index];
-                return Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    SingleItem(
-                      isBool: false,
-                      productName: cartItem.cartName,
-                      productImage: cartItem.cartImage, // Correct name
-                      productPrices: cartItem.cartPrice,
-                      productId: cartItem.cartId,
-                      productQuantity: cartItem.cartQuantity,
-                    ),
-                  ],
-                );
-              },
-            ),
+      body: RefreshIndicator(
+        onRefresh: _refreshProduct,
+        child: reviewCartProvider.geCartDataList.isEmpty
+            ? const Center(child: Text('No items in the cart'))
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: reviewCartProvider.geCartDataList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  ReviewCartModel cartItem =
+                      reviewCartProvider.geCartDataList[index];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      SingleItem(
+                        isBool: false,
+                        iswishlistBool: true,
+                        productName: cartItem.cartName,
+                        productImage: cartItem.cartImage,
+                        productPrices: cartItem.cartPrice,
+                        productId: cartItem.cartId,
+                        productQuantity: cartItem.cartQuantity,
+                        onDelete: () => showAlertDialog(context, cartItem),
+                      ),
+                    ],
+                  );
+                },
+              ),
+      ),
     );
   }
 }

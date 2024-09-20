@@ -24,7 +24,33 @@ class ReviewCartProvider with ChangeNotifier {
       'cartImage': cartImage,
       'cartPrice': cartPrice, // Fixed case to cartPrice
       'cartQuantity': cartQuantity,
+      'isAdd': true,
     });
+    notifyListeners();
+  }
+
+  /////////////////////update///////////////
+  Future<void> updateReviewCartData({
+    String cartId = '',
+    String cartName = '',
+    String cartImage = '',
+    int cartPrice = 0, // Changed from cartprice to cartPrice
+    int cartQuantity = 0,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection("ReviewCart")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("YourReviewCart")
+        .doc(cartId)
+        .update({
+      'cartId': cartId,
+      'cartName': cartName,
+      'cartImage': cartImage,
+      'cartPrice': cartPrice, // Fixed case to cartPrice
+      'cartQuantity': cartQuantity,
+      'isAdd': true,
+    });
+    notifyListeners();
   }
 
   List<ReviewCartModel> reviewCartDataList = [];
@@ -59,5 +85,17 @@ class ReviewCartProvider with ChangeNotifier {
   // Getter method for accessing the review cart data list
   List<ReviewCartModel> get geCartDataList {
     return reviewCartDataList;
+  }
+
+  /////////////////delete//////////////////////
+
+  reviewCartDeleteData(cartId) {
+    FirebaseFirestore.instance
+        .collection("ReviewCart")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("YourReviewCart")
+        .doc(cartId)
+        .delete();
+    notifyListeners();
   }
 }

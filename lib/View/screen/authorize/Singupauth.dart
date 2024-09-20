@@ -1,4 +1,4 @@
-import 'package:demoteteee/View/screen/homesWidgets/homeView.dart';
+import '../homesWidgets/homeView.dart';
 import 'package:demoteteee/credancial/singup.dart';
 import 'package:demoteteee/providers/userProvider.dart';
 import 'package:flutter/material.dart';

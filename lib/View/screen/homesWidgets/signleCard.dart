@@ -1,5 +1,6 @@
 import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/countitem.dart';
 
@@ -77,21 +78,59 @@ class SingleProduct extends StatelessWidget {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.grey),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        height: 30,
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text("50Gram"),
-                                            Icon(Icons.arrow_drop_down),
-                                          ],
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ListTile(
+                                                    title: new Text('50 gram'),
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                  ),
+                                                  ListTile(
+                                                    title: new Text('500 gram'),
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                  ),
+                                                  ListTile(
+                                                    title: new Text('1 kg'),
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                  ),
+                                                  ListTile(
+                                                    title: new Text('2 kg'),
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          height: 30,
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text("50Gram"),
+                                              Icon(Icons.arrow_drop_down),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

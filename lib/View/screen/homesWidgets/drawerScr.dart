@@ -1,5 +1,7 @@
-import 'package:demoteteee/View/screen/my_profile/my_profile.dart';
-import 'package:demoteteee/View/screen/review_cart/review.dart';
+import 'package:demoteteee/View/screen/wishlist/wishList.dart';
+
+import '../my_profile/my_profile.dart';
+import '../review_cart/review.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -100,7 +102,12 @@ class _DrawerSideState extends State<DrawerSide> {
               icon: Icons.notifications_outlined, titleName: "Notification"),
           widgetListTile(
               icon: Icons.star_outline, titleName: "Rating & Review"),
-          widgetListTile(icon: Icons.favorite_outline, titleName: "Wishlist"),
+          widgetListTile(
+              icon: Icons.favorite_outline,
+              titleName: "Wishlist",
+              onTap: () {
+                Get.to(WishlistScreen());
+              }),
           widgetListTile(
               icon: Icons.copy_outlined, titleName: "Raise a Complaint"),
           widgetListTile(icon: Icons.format_quote_outlined, titleName: "FAQs"),

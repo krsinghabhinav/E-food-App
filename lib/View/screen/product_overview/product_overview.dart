@@ -1,17 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demoteteee/View/screen/review_cart/review.dart';
+import 'package:demoteteee/widget/countitem.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/wishlist_provider.dart';
 
 enum SigninCharactor { fill, outline }
 
 class ProductOverview extends StatefulWidget {
   final String productName;
   final String productImage;
-  final int productPrices; // Non-nullable integer
+  final int productPrices;
+  final String productId;
 
   const ProductOverview({
     super.key,
     this.productName = '',
     this.productImage = '',
-    this.productPrices = 0, // Default value of 0
+    this.productPrices = 0,
+    this.productId = '',
   });
 
   @override
@@ -19,6 +29,7 @@ class ProductOverview extends StatefulWidget {
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
+  bool wishListBool = false;
   SigninCharactor _charactor = SigninCharactor.fill;
 
   Widget bottomNavigatorBar({
@@ -27,41 +38,81 @@ class _ProductOverviewState extends State<ProductOverview> {
     required Color textColor,
     required String title,
     required IconData iconData,
+    VoidCallback? onTap,
   }) {
     return Expanded(
-      child: Container(
-        color: backgroundColor,
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              iconData,
-              size: 25,
-              color: iconColor,
-            ),
-            const SizedBox(width: 5),
-            Text(
-              title,
-              style: TextStyle(color: textColor, fontSize: 16),
-            ),
-          ],
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          color: backgroundColor,
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconData,
+                size: 25,
+                color: iconColor,
+              ),
+              const SizedBox(width: 5),
+              Text(
+                title,
+                style: TextStyle(color: textColor, fontSize: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
+  getWihListBool() {
+    FirebaseFirestore.instance
+        .collection("WishList")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("YourWishList")
+        .doc(widget.productId)
+        .get()
+        .then((value) {
+      if (this.mounted) {
+        if (value.exists) {
+          setState(() {
+            wishListBool = value.get("wishList");
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of(context);
+    getWihListBool();
     return Scaffold(
       bottomNavigationBar: Row(
         children: [
           bottomNavigatorBar(
+            onTap: () {
+              setState(() {
+                wishListBool = !wishListBool;
+                if (wishListBool == true) {
+                  wishlistProvider.addwishListItem(
+                    wishListId: widget.productId,
+                    wishListName: widget.productName,
+                    wishListImage: widget.productImage,
+                    wishListPrice: widget.productPrices,
+                    wishListQuantity: 2,
+                  );
+                } else {
+                  wishlistProvider.wishListDelete(widget.productId);
+                }
+              });
+            },
             backgroundColor: Colors.black,
             textColor: Colors.white,
             iconColor: Colors.grey,
             title: "Add to Watchlist",
-            iconData: Icons.favorite_outline,
+            iconData: wishListBool ? Icons.favorite : Icons.favorite_outline,
           ),
           bottomNavigatorBar(
             backgroundColor: const Color.fromARGB(255, 230, 208, 10),
@@ -69,6 +120,9 @@ class _ProductOverviewState extends State<ProductOverview> {
             iconColor: Colors.grey,
             title: "Go To Cart",
             iconData: Icons.shop_outlined,
+            onTap: () {
+              Get.to(ReviewCartView());
+            },
           ),
         ],
       ),
@@ -157,26 +211,33 @@ class _ProductOverviewState extends State<ProductOverview> {
                           "\$50",
                           style: TextStyle(fontSize: 20),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.grey),
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(Icons.add),
-                              SizedBox(width: 4),
-                              Text(
-                                "ADD",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ),
+                        CountAddRemoveitem(
+                          productId: widget.productId,
+                          productImage: widget.productImage,
+                          productName: widget.productName,
+                          productprice: widget.productPrices,
+                        )
+
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(
+                        //     horizontal: 18,
+                        //     vertical: 5,
+                        //   ),
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(20),
+                        //     border: Border.all(color: Colors.grey),
+                        //   ),
+                        //   child: const Row(
+                        //     children: [
+                        //       Icon(Icons.add),
+                        //       SizedBox(width: 4),
+                        //       Text(
+                        //         "ADD",
+                        //         style: TextStyle(fontSize: 16),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
