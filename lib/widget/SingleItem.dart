@@ -1,6 +1,9 @@
+import 'package:demoteteee/message/toastmesss.dart';
+import 'package:demoteteee/providers/review_cart_provider.dart';
 import 'package:demoteteee/widget/countitem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SingleItem extends StatefulWidget {
   bool isBool;
@@ -29,6 +32,22 @@ class SingleItem extends StatefulWidget {
 }
 
 class _SingleItemState extends State<SingleItem> {
+  late ReviewCartProvider reviewCartProvider;
+  late int count;
+
+  @override
+  void initState() {
+    super.initState();
+    count = widget.productQuantity;
+
+    // Fetch the review cart data once when the widget is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      reviewCartProvider =
+          Provider.of<ReviewCartProvider>(context, listen: false);
+      reviewCartProvider.getReviewCartDataList();
+    });
+  }
+
   // Function to simulate refreshing data
   Future<void> _refreshPage() async {
     // Simulate a network call or data fetching
@@ -37,7 +56,7 @@ class _SingleItemState extends State<SingleItem> {
     // Update your widget's state here with any data refresh (if needed)
     setState(() {
       // For example, you can update productQuantity or other data here
-      widget.productQuantity += 1; // Example: just increase product quantity
+      count += 1; // Example: just increase product quantity
     });
   }
 
@@ -77,14 +96,14 @@ class _SingleItemState extends State<SingleItem> {
                             children: [
                               Text(
                                 widget.productName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
                                 "\$ ${widget.productPrices}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -102,29 +121,29 @@ class _SingleItemState extends State<SingleItem> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           ListTile(
-                                            title: new Text('50 gram'),
+                                            title: Text('50 gram'),
                                             onTap: () {
                                               Get.back();
                                             },
                                           ),
                                           ListTile(
-                                            title: new Text('500 gram'),
+                                            title: Text('500 gram'),
                                             onTap: () {
                                               Get.back();
                                             },
                                           ),
                                           ListTile(
-                                            title: new Text('1 kg'),
+                                            title: Text('1 kg'),
                                             onTap: () {
                                               Get.back();
                                             },
                                           ),
                                           ListTile(
-                                            title: new Text('2 kg'),
+                                            title: Text('2 kg'),
                                             onTap: () {
                                               Get.back();
                                             },
-                                          )
+                                          ),
                                         ],
                                       );
                                     },
@@ -190,39 +209,6 @@ class _SingleItemState extends State<SingleItem> {
                                   productName: widget.productName,
                                   productprice: widget.productPrices,
                                 ),
-
-                                // child: Container(
-                                //   height: 30,
-                                //   width: 80,
-                                //   decoration: BoxDecoration(
-                                //     color:
-                                //         const Color.fromARGB(55, 221, 219, 219),
-                                //     borderRadius: BorderRadius.circular(30),
-                                //     border: Border.all(
-                                //       color: const Color.fromARGB(
-                                //           255, 187, 185, 185),
-                                //     ),
-                                //   ),
-                                //   child: const Row(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     children: [
-                                //       Icon(
-                                //         Icons.add,
-                                //         color:
-                                //             Color.fromARGB(255, 187, 185, 185),
-                                //       ),
-                                //       Text(
-                                //         "ADD",
-                                //         style: TextStyle(
-                                //           fontSize: 16,
-                                //           fontWeight: FontWeight.w500,
-                                //           color: Color.fromARGB(
-                                //               255, 187, 185, 185),
-                                //         ),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
                               ),
                             ],
                           )
@@ -239,8 +225,8 @@ class _SingleItemState extends State<SingleItem> {
                                 ),
                                 widget.iswishlistBool
                                     ? Container(
-                                        height: 30,
-                                        width: 85,
+                                        height: 35,
+                                        width: 80,
                                         decoration: BoxDecoration(
                                           color: const Color.fromARGB(
                                               55, 221, 219, 219),
@@ -251,28 +237,72 @@ class _SingleItemState extends State<SingleItem> {
                                                 255, 187, 185, 185),
                                           ),
                                         ),
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        child: Row(
                                           children: [
-                                            Icon(
-                                              Icons.remove,
-                                              color: Color.fromARGB(
-                                                  255, 187, 185, 185),
-                                            ),
-                                            Text(
-                                              "11",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
+                                            InkWell(
+                                              onTap: () {
+                                                if (count <= 1) {
+                                                  // Show an error message when the count is at its minimum
+                                                  ToastUtil.showError(
+                                                      "You have reached the minimum limit");
+                                                } else {
+                                                  setState(() {
+                                                    count--;
+                                                  });
+                                                  reviewCartProvider
+                                                      .updateReviewCartData(
+                                                    cartId: widget.productId,
+                                                    cartName:
+                                                        widget.productName,
+                                                    cartQuantity: count,
+                                                    cartImage:
+                                                        widget.productImage,
+                                                    cartPrice:
+                                                        widget.productPrices,
+                                                  );
+                                                }
+                                              },
+                                              child: const Icon(
+                                                Icons.remove,
                                                 color: Color.fromARGB(
                                                     255, 187, 185, 185),
                                               ),
                                             ),
-                                            Icon(
-                                              Icons.add,
-                                              color: Color.fromARGB(
-                                                  255, 187, 185, 185),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5.0),
+                                              child: Text(
+                                                '$count',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromARGB(
+                                                      255, 187, 185, 185),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  count++;
+                                                });
+                                                reviewCartProvider
+                                                    .updateReviewCartData(
+                                                  cartId: widget.productId,
+                                                  cartName: widget.productName,
+                                                  cartQuantity: count,
+                                                  cartImage:
+                                                      widget.productImage,
+                                                  cartPrice:
+                                                      widget.productPrices,
+                                                );
+                                              },
+                                              child: const Icon(
+                                                Icons.add,
+                                                color: Color.fromARGB(
+                                                    255, 187, 185, 185),
+                                              ),
                                             ),
                                           ],
                                         ),

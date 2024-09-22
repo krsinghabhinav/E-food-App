@@ -15,7 +15,7 @@ class ToastUtil {
     );
   }
 
-  static void showError(String message, $) {
+  static void showError(String message) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
