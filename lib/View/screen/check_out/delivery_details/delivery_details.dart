@@ -1,5 +1,7 @@
+import 'package:demoteteee/View/screen/check_out/delivery_details/add_delivery_address/add_delivery_adderss.dart';
 import 'package:demoteteee/View/screen/check_out/delivery_details/single_delivery_item.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DeliveryDetailsView extends StatefulWidget {
   const DeliveryDetailsView({super.key});
@@ -36,7 +38,7 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
         height: 40,
         child: MaterialButton(
           onPressed: () {
-            // Add new address action
+            Get.to(AddDeliveryAdderss());
           },
           child: Center(
             child: Text(
