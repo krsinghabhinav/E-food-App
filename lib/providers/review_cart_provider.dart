@@ -86,6 +86,15 @@ class ReviewCartProvider with ChangeNotifier {
   List<ReviewCartModel> get geCartDataList {
     return reviewCartDataList;
   }
+///////////////////////TOTAL Prices////////////////////
+
+  getTotalPrice() {
+    double total = 0.0;
+    reviewCartDataList.forEach((element) {
+      total += element.cartPrice * element.cartQuantity;
+    });
+    return total;
+  }
 
   /////////////////delete//////////////////////
 

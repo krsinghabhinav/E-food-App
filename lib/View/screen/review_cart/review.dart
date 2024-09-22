@@ -1,3 +1,5 @@
+import 'package:demoteteee/View/screen/check_out/delivery_details/delivery_details.dart';
+import 'package:demoteteee/message/toastmesss.dart';
 import 'package:demoteteee/models/reviewCart.dart';
 import 'package:demoteteee/providers/review_cart_provider.dart';
 import 'package:demoteteee/widget/SingleItem.dart';
@@ -86,27 +88,40 @@ class _ReviewCartViewState extends State<ReviewCartView> {
             fontSize: 18,
           ),
         ),
-        subtitle: const Text(
-          "\$1500.00 ",
+        subtitle: Text(
+          "\$  ${reviewCartProvider.getTotalPrice()} ",
           style: TextStyle(
             fontWeight: FontWeight.w700,
             color: Color.fromARGB(255, 29, 221, 39),
             fontSize: 16,
           ),
         ),
-        trailing: Container(
-          height: 50,
-          width: 140,
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 230, 6),
-              borderRadius: BorderRadius.circular(30)),
-          child: const Center(
-            child: Text(
-              "Submit",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 83, 81, 81),
-                fontSize: 20,
+        trailing: GestureDetector(
+          onTap: () {
+            if (reviewCartProvider.reviewCartDataList.isEmpty) {
+              ToastUtil.showError(
+                "No data found in the cart",
+              );
+            } else {
+              Get.to(
+                DeliveryDetailsView(),
+              );
+            }
+          },
+          child: Container(
+            height: 50,
+            width: 140,
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 230, 6),
+                borderRadius: BorderRadius.circular(30)),
+            child: const Center(
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 83, 81, 81),
+                  fontSize: 20,
+                ),
               ),
             ),
           ),

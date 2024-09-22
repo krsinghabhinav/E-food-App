@@ -64,8 +64,6 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
   Widget build(BuildContext context) {
     reviewCartProvider = Provider.of<ReviewCartProvider>(context);
 
-    print('product id  ----------------------    ${widget.productId}');
-
     return Container(
         padding: const EdgeInsets.only(left: 2),
         decoration: BoxDecoration(
@@ -79,6 +77,8 @@ class _CountAddRemoveitemState extends State<CountAddRemoveitem> {
                 children: [
                   InkWell(
                       onTap: () {
+                        print(
+                            'product id  ----------------------    ${widget.productId}');
                         if (count == 1) {
                           setState(() {
                             isTrue = false;
