@@ -36,6 +36,12 @@ class UserProvider with ChangeNotifier {
         userImage: uservalue.get("userImage"),
         userUid: uservalue.get("userUid"),
       );
+      currentData = userModel;
+      notifyListeners();
     }
+  }
+
+  UserModel get getUserDatalist {
+    return currentData;
   }
 }

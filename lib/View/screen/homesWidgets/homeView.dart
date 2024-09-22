@@ -1,4 +1,5 @@
 import 'package:demoteteee/View/screen/review_cart/review.dart';
+import 'package:demoteteee/providers/userProvider.dart';
 
 import '30%off.dart';
 import '../product_overview/product_overview.dart';
@@ -177,9 +178,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
 
+    UserProvider userProvider = Provider.of(context);
+    userProvider.getUserData();
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 214, 213, 213),
-      drawer: const DrawerSide(),
+      drawer: DrawerSide(userProvider: userProvider),
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black, size: 35),

@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'; // Assuming you're using GetX for navigation
 import '../homesWidgets/drawerScr.dart';
 
 class MyProfileView extends StatefulWidget {
-  const MyProfileView({super.key});
+  final String userimage;
+  final String username;
+  final String userEmail;
+
+  const MyProfileView(
+      {super.key,
+      required this.userimage,
+      required this.username,
+      required this.userEmail});
 
   @override
   State<MyProfileView> createState() => _MyProfileViewState();
@@ -28,23 +37,21 @@ class _MyProfileViewState extends State<MyProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 230, 208, 10),
-
-      // backgroundColor: const Color.fromARGB(255, 230, 208, 10),
       appBar: AppBar(
         elevation: 0.0,
-        scrolledUnderElevation: 0.0,
         iconTheme: const IconThemeData(color: Colors.black, size: 35),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 230, 208, 10),
         title: const Text(
           "My Profile",
           style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Color.fromARGB(255, 0, 0, 0),
-              fontSize: 25),
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+            fontSize: 25,
+          ),
         ),
       ),
-      drawer: const DrawerSide(),
+      drawer: DrawerSide(),
       body: Stack(
         children: [
           Column(
@@ -59,7 +66,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
@@ -73,8 +80,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                         Container(
                           height: 100,
                           width: 250,
-                          padding: const EdgeInsets.only(left: 30, top: 0),
-                          child: const Row(
+                          padding: const EdgeInsets.only(left: 20, top: 0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
@@ -82,22 +89,24 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Abhinav kuamr Singh",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 16),
+                                    widget.username ?? 'Welcome Dost',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                   Text(
-                                    "abhinavsingh@gmail.com",
-                                    style: TextStyle(
-                                        // fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 14),
+                                    widget.userEmail ??
+                                        "exmaple@gmail.com", // Replace with dynamic email if needed
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                    ),
                                   )
                                 ],
                               ),
-                              CircleAvatar(
+                              const CircleAvatar(
                                 child: Icon(Icons.edit),
                               )
                             ],
@@ -107,7 +116,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                     ),
                     listTile(
                       icon: Icons.shop_outlined,
-                      titlename: "My Oders",
+                      titlename: "My Orders",
                     ),
                     listTile(
                       icon: Icons.location_on_outlined,
@@ -115,11 +124,11 @@ class _MyProfileViewState extends State<MyProfileView> {
                     ),
                     listTile(
                       icon: Icons.person_outline,
-                      titlename: "Refer a friend",
+                      titlename: "Refer a Friend",
                     ),
                     listTile(
                       icon: Icons.file_copy_outlined,
-                      titlename: "Terms & Condition",
+                      titlename: "Terms & Conditions",
                     ),
                     listTile(
                       icon: Icons.policy_outlined,
@@ -131,20 +140,27 @@ class _MyProfileViewState extends State<MyProfileView> {
                     ),
                     listTile(
                       icon: Icons.exit_to_app_outlined,
-                      titlename: "LogOut",
+                      titlename: "Log Out",
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 40, left: 30),
+          Padding(
+            padding: const EdgeInsets.only(top: 55, left: 25),
             child: CircleAvatar(
-              radius: 55,
-              backgroundImage: AssetImage('assest/images/per.png'),
+              radius: 50,
+              backgroundColor: Color.fromARGB(255, 230, 208, 10),
+              child: CircleAvatar(
+                radius: 45,
+                backgroundImage: widget.userimage.isNotEmpty
+                    ? NetworkImage(widget.userimage)
+                    : const AssetImage('assets/images/per.png')
+                        as ImageProvider,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
