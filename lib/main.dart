@@ -1,3 +1,4 @@
+import 'package:demoteteee/providers/check_out_provider.dart';
 import 'package:demoteteee/providers/provider_provider.dart';
 import 'package:demoteteee/providers/userProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ReviewCartProvider()),
         ChangeNotifierProvider(create: (_) => WishlistProvider()),
+        ChangeNotifierProvider(create: (_) => CheckOutProvider()),
       ],
       child: GetMaterialApp(
         theme: ThemeData(useMaterial3: disable),

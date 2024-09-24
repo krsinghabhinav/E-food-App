@@ -3,6 +3,8 @@ import 'package:demoteteee/View/screen/check_out/delivery_details/single_deliver
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../payment_summary/pyment_summary.dart';
+
 class DeliveryDetailsView extends StatefulWidget {
   const DeliveryDetailsView({super.key});
 
@@ -11,6 +13,14 @@ class DeliveryDetailsView extends StatefulWidget {
 }
 
 class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
+  List<Widget> isAddress = [
+    SingleDeliveryItem(
+      address: 'Area, Lucknow Kanchna bihari marge, near by iise college ',
+      title: 'Abhinav Developer',
+      addressType: "Home",
+      number: '+91-7525827482',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +34,7 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 247, 223, 10),
         onPressed: () {
-          // Add your action here
+          Get.to(AddDeliveryAdderss());
         },
         shape: CircleBorder(),
         child: Icon(
@@ -38,13 +48,20 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
         height: 40,
         child: MaterialButton(
           onPressed: () {
-            Get.to(AddDeliveryAdderss());
+            isAddress.isEmpty
+                ? Get.to(AddDeliveryAdderss())
+                : Get.to(PymentSummary());
           },
           child: Center(
-            child: Text(
-              "Add New Address",
-              style: TextStyle(fontSize: 20),
-            ),
+            child: isAddress.isEmpty
+                ? Text(
+                    "Add New Address",
+                    style: TextStyle(fontSize: 20),
+                  )
+                : Text(
+                    "Get Payment",
+                    style: TextStyle(fontSize: 20),
+                  ),
           ),
           color: Color.fromARGB(255, 247, 223, 10),
           shape: RoundedRectangleBorder(
@@ -71,12 +88,15 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
           ),
           Column(
             children: [
-              SingleDeliveryItem(
-                address: 'Area, Lucknow Kanchna bihari marge ',
-                title: 'Abhinav Developer',
-                addressType: "Home",
-                number: '+91-7525827482',
-              )
+              isAddress.isNotEmpty
+                  ? SingleDeliveryItem(
+                      address:
+                          'Area, Lucknow Kanchna bihari marge, near by iise college ',
+                      title: 'Abhinav Singh',
+                      addressType: "Home",
+                      number: '+91-7525827482',
+                    )
+                  : Container(),
             ],
           ),
           Divider(
