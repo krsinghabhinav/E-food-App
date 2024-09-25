@@ -3,6 +3,7 @@ import 'package:demoteteee/message/toastmesss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 
 import '../View/screen/check_out/delivery_details/add_delivery_address/add_delivery_adderss.dart';
 
@@ -18,9 +19,10 @@ class CheckOutProvider with ChangeNotifier {
   TextEditingController city = TextEditingController();
   TextEditingController area = TextEditingController();
   TextEditingController pincode = TextEditingController();
-  TextEditingController seelectLocation = TextEditingController();
+  LocationData? setLocation;
 
-  void validator(BuildContext context, AddressType myType) async {
+  void validator(BuildContext context, myType) async {
+    print("setlocation-------------------->>>  ${setLocation}");
     if (firstName.text.isEmpty) {
       ToastUtil.showError("First name is empty");
     } else if (lastName.text.isEmpty) {
@@ -41,6 +43,8 @@ class CheckOutProvider with ChangeNotifier {
       ToastUtil.showError("Area is empty");
     } else if (pincode.text.isEmpty) {
       ToastUtil.showError("PinCode is empty");
+    } else if (setLocation == null) {
+      ToastUtil.showError("setLocation is empty");
     } else {
       isLoading = true;
       notifyListeners();
@@ -69,8 +73,9 @@ class CheckOutProvider with ChangeNotifier {
         "city": city.text,
         "area": area.text,
         "pincode": pincode.text,
-        "seelectLocation": seelectLocation.text,
         "addressType": addressTypeStr,
+        "longitude": setLocation!.longitude,
+        "latitude": setLocation!.latitude,
       }).then((_) {
         isLoading = false;
         notifyListeners();

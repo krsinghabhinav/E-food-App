@@ -34,7 +34,7 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 247, 223, 10),
         onPressed: () {
-          Get.to(AddDeliveryAdderss());
+          Get.to(AddDeliveryAddress());
         },
         shape: CircleBorder(),
         child: Icon(
@@ -49,7 +49,7 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
         child: MaterialButton(
           onPressed: () {
             isAddress.isEmpty
-                ? Get.to(AddDeliveryAdderss())
+                ? Get.to(AddDeliveryAddress())
                 : Get.to(PymentSummary());
           },
           child: Center(

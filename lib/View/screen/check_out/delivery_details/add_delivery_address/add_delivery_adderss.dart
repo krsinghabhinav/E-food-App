@@ -1,23 +1,26 @@
+import 'package:demoteteee/View/screen/check_out/google_map/google_map.dart';
 import 'package:demoteteee/providers/check_out_provider.dart';
 import 'package:demoteteee/widget/custome_textfiled.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 enum AddressType { Home, Work, Other }
 
-class AddDeliveryAdderss extends StatefulWidget {
-  const AddDeliveryAdderss({super.key});
+class AddDeliveryAddress extends StatefulWidget {
+  const AddDeliveryAddress({super.key});
 
   @override
-  State<AddDeliveryAdderss> createState() => _AddDeliveryAdderssState();
+  State<AddDeliveryAddress> createState() => _AddDeliveryAddressState();
 }
 
-class _AddDeliveryAdderssState extends State<AddDeliveryAdderss> {
+class _AddDeliveryAddressState extends State<AddDeliveryAddress> {
   var myType = AddressType.Home;
 
   @override
   Widget build(BuildContext context) {
-    CheckOutProvider checkOutProvider = Provider.of(context);
+    final checkOutProvider = Provider.of<CheckOutProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 247, 223, 10),
@@ -89,15 +92,21 @@ class _AddDeliveryAdderssState extends State<AddDeliveryAdderss> {
               controller: checkOutProvider.pincode,
             ),
             InkWell(
-              onTap: () {},
-              child: const SizedBox(
+              onTap: () {
+                setState(() {});
+                Get.to(const CustomGoogleMap());
+              },
+              child: SizedBox(
                 width: double.infinity,
                 height: 47,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Select Location"),
+                    // Assuming checkb is a property of CheckOutProvider
+                    checkOutProvider.setLocation == null
+                        ? const Text(" Set  Location")
+                        : const Text("done!!"),
                   ],
                 ),
               ),
