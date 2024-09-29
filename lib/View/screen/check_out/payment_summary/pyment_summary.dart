@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demoteteee/View/screen/check_out/payment_summary/order_item.dart';
+import 'package:demoteteee/models/deliveryAddressModel.dart';
 import 'package:flutter/material.dart';
+
+import '../delivery_details/single_delivery_item.dart';
 
 enum AddressType { Home, Work, other }
 
 class PymentSummary extends StatefulWidget {
-  const PymentSummary({super.key});
+  final DeliveryAddressModel? deliveryAddressList;
+  const PymentSummary({super.key, this.deliveryAddressList});
 
   @override
   State<PymentSummary> createState() => _PymentSummaryState();
@@ -55,15 +59,13 @@ class _PymentSummaryState extends State<PymentSummary> {
           itemBuilder: (context, index) {
             return Column(
               children: [
-                ListTile(
-                  title: Text(
-                    'First and Last Name',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  subtitle: Text(
-                    'Area, Lucknow Kanchna bihari marge, near by iise college ',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                  ),
+                SingleDeliveryItem(
+                  address:
+                      'Area ${widget.deliveryAddressList!.area},Street ${widget.deliveryAddressList!.streem}, society${widget.deliveryAddressList!.society}, PinCode${widget.deliveryAddressList!.pincode}',
+                  title:
+                      '${widget.deliveryAddressList!.firstName} ${widget.deliveryAddressList!.lastName}',
+                  addressType: "Home",
+                  number: '+91-${widget.deliveryAddressList!.mobileNo}',
                 ),
                 // Divider(
                 //   color: const Color.fromARGB(255, 87, 86, 86),

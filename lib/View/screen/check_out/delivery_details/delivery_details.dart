@@ -1,7 +1,10 @@
 import 'package:demoteteee/View/screen/check_out/delivery_details/add_delivery_address/add_delivery_adderss.dart';
 import 'package:demoteteee/View/screen/check_out/delivery_details/single_delivery_item.dart';
+import 'package:demoteteee/models/deliveryAddressModel.dart';
+import 'package:demoteteee/providers/check_out_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../payment_summary/pyment_summary.dart';
 
@@ -13,16 +16,19 @@ class DeliveryDetailsView extends StatefulWidget {
 }
 
 class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
-  List<Widget> isAddress = [
-    SingleDeliveryItem(
-      address: 'Area, Lucknow Kanchna bihari marge, near by iise college ',
-      title: 'Abhinav Developer',
-      addressType: "Home",
-      number: '+91-7525827482',
-    ),
-  ];
+  DeliveryAddressModel? value;
+
   @override
   Widget build(BuildContext context) {
+    // if (value != null) {
+    //   print(value!.firstName);
+    // } else {
+    //   print("Value is null");
+    // }
+
+    CheckOutProvider checkOutProvider = Provider.of(context);
+    checkOutProvider.getDeliveryAddressData();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 247, 223, 10),
@@ -48,12 +54,14 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
         height: 40,
         child: MaterialButton(
           onPressed: () {
-            isAddress.isEmpty
+            checkOutProvider.getDatalstDeliveryAddress.isEmpty
                 ? Get.to(AddDeliveryAddress())
-                : Get.to(PymentSummary());
+                : Get.to(PymentSummary(
+                    deliveryAddressList: value,
+                  ));
           },
           child: Center(
-            child: isAddress.isEmpty
+            child: checkOutProvider.getDatalstDeliveryAddress.isEmpty
                 ? Text(
                     "Add New Address",
                     style: TextStyle(fontSize: 20),
@@ -88,15 +96,25 @@ class _DeliveryDetailsViewState extends State<DeliveryDetailsView> {
           ),
           Column(
             children: [
-              isAddress.isNotEmpty
-                  ? SingleDeliveryItem(
-                      address:
-                          'Area, Lucknow Kanchna bihari marge, near by iise college ',
-                      title: 'Abhinav Singh',
-                      addressType: "Home",
-                      number: '+91-7525827482',
+              checkOutProvider.getDatalstDeliveryAddress.isEmpty
+                  ? Container(
+                      child: Text("No Data"),
                     )
-                  : Container(),
+                  : Column(
+                      children: checkOutProvider.getDatalstDeliveryAddress
+                          .map((data) {
+                        setState(() {
+                          value = data;
+                        });
+                        return SingleDeliveryItem(
+                          address:
+                              'Area ${data.area},Street ${data.streem}, society${data.society}, PinCode${data.pincode}',
+                          title: '${data.firstName} ${data.lastName}',
+                          addressType: "Home",
+                          number: '+91-${data.mobileNo}',
+                        );
+                      }).toList(),
+                    ),
             ],
           ),
           Divider(

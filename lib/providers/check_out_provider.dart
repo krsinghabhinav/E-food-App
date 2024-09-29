@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demoteteee/message/toastmesss.dart';
+import 'package:demoteteee/models/deliveryAddressModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:location/location.dart';
 import '../View/screen/check_out/delivery_details/add_delivery_address/add_delivery_adderss.dart';
 
 class CheckOutProvider with ChangeNotifier {
+  DeliveryAddressModel deliveryAddressModel = DeliveryAddressModel();
+
   bool isLoading = false;
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -87,5 +90,37 @@ class CheckOutProvider with ChangeNotifier {
         ToastUtil.showError("Failed to add address: $error");
       });
     }
+  }
+
+/////////////////////get address deails////////////////////////////////////
+  List<DeliveryAddressModel> deliveryModelDatalsit = [];
+  getDeliveryAddressData() async {
+    List<DeliveryAddressModel> newDeliveryList = [];
+    DocumentSnapshot addressDB = await FirebaseFirestore.instance
+        .collection("AddDeliveryAdddress")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    if (addressDB.exists) {
+      deliveryAddressModel = DeliveryAddressModel(
+        firstName: addressDB.get("firstName"),
+        lastName: addressDB.get("lastName"),
+        mobileNo: addressDB.get("mobileNo"),
+        altMobileNo: addressDB.get("altMobileNo"),
+        society: addressDB.get("society"),
+        streem: addressDB.get("streem"),
+        landmark: addressDB.get("landmark"),
+        city: addressDB.get("city"),
+        area: addressDB.get("area"),
+        pincode: addressDB.get("pincode"),
+      );
+      newDeliveryList.add(deliveryAddressModel);
+      notifyListeners();
+    }
+    deliveryModelDatalsit = newDeliveryList;
+    notifyListeners();
+  }
+
+  List<DeliveryAddressModel> get getDatalstDeliveryAddress {
+    return deliveryModelDatalsit;
   }
 }

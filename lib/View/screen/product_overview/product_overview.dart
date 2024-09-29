@@ -217,27 +217,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                           productName: widget.productName,
                           productprice: widget.productPrices,
                         )
-
-                        // Container(
-                        //   padding: const EdgeInsets.symmetric(
-                        //     horizontal: 18,
-                        //     vertical: 5,
-                        //   ),
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(20),
-                        //     border: Border.all(color: Colors.grey),
-                        //   ),
-                        //   child: const Row(
-                        //     children: [
-                        //       Icon(Icons.add),
-                        //       SizedBox(width: 4),
-                        //       Text(
-                        //         "ADD",
-                        //         style: TextStyle(fontSize: 16),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

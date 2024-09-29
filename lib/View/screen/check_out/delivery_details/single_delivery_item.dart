@@ -27,10 +27,6 @@ class _SingleDeliveryItemState extends State<SingleDeliveryItem> {
           padding: const EdgeInsets.symmetric(
               vertical: 5.0, horizontal: 8), // Added padding for better spacing
           child: ListTile(
-            leading: CircleAvatar(
-              radius: 12,
-              backgroundColor: Colors.yellow,
-            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
